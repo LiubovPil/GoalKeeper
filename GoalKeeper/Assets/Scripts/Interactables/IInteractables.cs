@@ -7,5 +7,7 @@ namespace GoalKeeper.Interactables
     public interface IInteractables
     {
         void ApplyEffect();
+
+        void ApplyForce(Vector3 position);
     }
 }

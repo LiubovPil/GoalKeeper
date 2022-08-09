@@ -4,12 +4,23 @@ using UnityEngine;
 
 namespace GoalKeeper.Interactables
 {
-    public class Bomb : MonoBehaviour, IInteractables
+    [RequireComponent(typeof(Rigidbody))]
+    public class Bomb : Interactable, IInteractables
     {
+        private void Awake()
+        {
+            _intaractableRigidbody = GetComponent<Rigidbody>();
+        }
         public void ApplyEffect()
         {
             GoalKeeper.Pooler.
                 PoolerController.Instance.ReturnToPool(gameObject, gameObject.tag);
+        }
+        public void ApplyForce(Vector3 position)
+        {
+            Vector3 direction = (position - transform.position).normalized;
+            Debug.Log(gameObject.name + " " + direction);
+            _intaractableRigidbody.AddForce(direction * _interactableForce, ForceMode.Force);
         }
     }
 }

@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 3104297114368801143}
   - component: {fileID: 3131020151195935767}
   - component: {fileID: 3123192772143992989}
-  - component: {fileID: 3162375374588246749}
+  - component: {fileID: 7383955378301499131}
+  - component: {fileID: 2404971330568044526}
+  - component: {fileID: 7475516148654034824}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -28,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3099559264671257399}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.03162396, y: 0.50131315, z: 1.2607019}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,17 +86,46 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3162375374588246749
-MeshCollider:
+--- !u!54 &7383955378301499131
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3099559264671257399}
-  m_Material: {fileID: 0}
+  serializedVersion: 2
+  m_Mass: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!114 &2404971330568044526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3099559264671257399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36504cb23e924124fad2b86c68b01703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactableForce: 200
+  _interactableScore: 5
+--- !u!135 &7475516148654034824
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3099559264671257399}
+  m_Material: {fileID: 13400000, guid: 56925273feb0dd740a438b9f1dfc7a24, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: d5e83122f8e5b6d4cae918de4ade20ed, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.50131315
+  m_Center: {x: 0, y: 0, z: 0}

@@ -7,15 +7,18 @@ namespace GoalKeeper.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        [Header("Size of football border")]
         [SerializeField] private Transform _rightBorder;
         [SerializeField] private Transform _leftBorder;
+
+        [Header("Movement speed settings")]
         [SerializeField] private float _movementSpeed = 5.0f;
         
         private Input _input;
 
         private Vector3 _newPosition;
         private Vector3 _inputValue;
-        private float _offsetX = 0.4f;
+        private const float _offsetX = 0.4f;
 
         private void Awake()
         {
@@ -39,7 +42,7 @@ namespace GoalKeeper.Player
         {
             _inputValue = Camera.main.ScreenToWorldPoint(new Vector3(input.Get<Vector2>().x,
                     input.Get<Vector2>().y, -Camera.main.transform.position.z));
-            Debug.Log("InputValue" + _inputValue);
+            //Debug.Log("InputValue = " + _inputValue);
             
             _newPosition.x = Mathf.Clamp(_inputValue.x, _leftBorder.transform.position.x + _offsetX, 
                 _rightBorder.transform.position.x - _offsetX);

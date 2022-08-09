@@ -7,6 +7,7 @@ namespace GoalKeeper.UI
 {
     public class UITimer : MonoBehaviour
     {
+        [Header("Settings for UI Timer")]
         [SerializeField] private TMP_Text _timeText;
         [SerializeField] private float _gameDuration;
 
