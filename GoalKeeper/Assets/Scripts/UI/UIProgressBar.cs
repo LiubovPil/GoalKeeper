@@ -1,35 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GoalKeeper.Controllers;
 
 namespace GoalKeeper.UI
 {
     public class UIProgressBar : MonoBehaviour
     {
-        private const float _maxScore = 100;
+        private const float _maxProgress = 100;
 
         [Header("Settings for UI Timer")]
         [SerializeField] private Slider _progressBar;
 
+        //Timer settings
+        private Timer _decreaseTimer;
+        private float _decreaseTime = 2.0f;
+
         private float _progressBarValue;
-        private float _totalScore;
+        private float _totalProgress;
+
+        private void Awake()
+        {
+            _decreaseTimer = GetComponent<Timer>();
+            _decreaseTimer.Duration = _decreaseTime;
+            _decreaseTimer.Run(); ;
+        }
+
+        private void Start()
+        {
+            EventManager.AddListenerChangeProgressEvent(GetScoreFromInteractable);
+        }
 
         private void Update()
         {
-            _totalScore -= (Time.deltaTime * 100);
-            UpdateScore();
+            if (_decreaseTimer.Finished)
+            {
+                _totalProgress -= 0.5f;
+                UpdateScore();
+                _decreaseTimer.Run();
+            }
         }
         private void GetScoreFromInteractable(int score)
         {
-            _totalScore += score;
+            _totalProgress += score;
             UpdateScore();
         }
         private void UpdateScore()
         {
-            if(_totalScore >= 0 && _totalScore <= 100)
+            if(_totalProgress >= 0 && _totalProgress <= 100)
             {
-                _progressBarValue = Mathf.Clamp01(_progressBarValue / _maxScore);
+                Debug.Log("Total Score = " + _totalProgress);
+                _progressBarValue = Mathf.Clamp01(_totalProgress / _maxProgress);
                 _progressBar.value = _progressBarValue;
             }
         }

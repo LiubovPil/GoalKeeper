@@ -1,47 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using GoalKeeper.Pooler;
 using GoalKeeper.Interactables;
 
 namespace GoalKeeper.Controllers
 {
     public class SpawnController : MonoBehaviour
     {
-        //Spawn setting 
-        private const float _probabilitySpawnBall = 0.6f;
-        private const float _offsetZ = 1.5f;
+        protected const float _offsetZ = 1.5f;
 
         [Header("Size of football border")]
-        [SerializeField] private Transform _rightBorder;
-        [SerializeField] private Transform _leftBorder;
-        [SerializeField] private float _minPositionY;
-        [SerializeField] private float _maxPositionY;
+        [SerializeField] protected Transform _rightBorder;
+        [SerializeField] protected Transform _leftBorder;
+        [SerializeField] protected float _minPositionY;
+        [SerializeField] protected float _maxPositionY;
         //for z the coordinate can take the value from rightborder/leftborder
 
         [Header("Interactables spawn limits")]
-        [SerializeField] private int _minSpawnTime;
-        [SerializeField] private int _maxSpawnTime;
+        [SerializeField] protected int _minSpawnTime;
+        [SerializeField] protected int _maxSpawnTime;
 
         //Timer settings
-        private Timer _spawnTimer;
-        private int _spawnTime;
+        protected Timer _spawnTimer;
+        protected int _spawnTime;
 
         //Target position settings        
-        private Vector3 _targetPosition;
+        protected Vector3 _targetPosition;
 
         //Interactable
-        private GameObject _interactable;
-        private IInteractables _interactablesInterface;
-        private void Awake()
+        protected GameObject _interactable;
+        protected IInteractables _interactablesInterface;
+        protected void Awake()
         {
             _spawnTimer = GetComponent<Timer>();
-            _spawnTime = Random.Range(_minSpawnTime, _maxSpawnTime);
 
-            _spawnTimer.Duration = _spawnTime;
-            _spawnTimer.Run();
+            ConfigureTimer();
         }
-        private void Update()
+        protected void Update()
         {
             if (_spawnTimer.Finished)
             {
@@ -51,12 +44,7 @@ namespace GoalKeeper.Controllers
 
                 _targetPosition = new Vector3(positionX, positionY, positionZ);
 
-                float probability = Random.Range(0f, 1.0f);
-
-                if(probability <= _probabilitySpawnBall)
-                    _interactable = PoolerController.Instance.GetFromPool("Ball");
-                else
-                    _interactable = PoolerController.Instance.GetFromPool("Bomb");
+                _interactable = ChooseInteractable();
 
                 _interactable.SetActive(true);
                 _interactable.transform.position = transform.position;
@@ -64,10 +52,18 @@ namespace GoalKeeper.Controllers
                 _interactablesInterface = _interactable.GetComponent<IInteractables>();
                 _interactablesInterface.ApplyForce(_targetPosition);
 
-                _spawnTime = Random.Range(_minSpawnTime, _maxSpawnTime);
-                _spawnTimer.Duration = _spawnTime;
-                _spawnTimer.Run();
+                ConfigureTimer();
             }
+        }
+        protected void ConfigureTimer()
+        {
+            _spawnTime = Random.Range(_minSpawnTime, _maxSpawnTime);
+            _spawnTimer.Duration = _spawnTime;
+            _spawnTimer.Run();
+        }
+        protected virtual GameObject ChooseInteractable()
+        {
+            return _interactable;
         }
     }
 }

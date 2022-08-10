@@ -1,27 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using GoalKeeper.Pooler;
 
 namespace GoalKeeper.Interactables
 {
-    public class Interactable : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody))]
+    public class Interactable : MonoBehaviour, IInteractables
     {
         [Header("Interactable settings")]
         [SerializeField] protected float _interactableForce;
         [SerializeField] protected int _interactableScore;
 
-        private string _destroyZoneTag = "DestroyZone";
+        protected string _destroyZoneTag = "DestroyZone";
 
         protected Rigidbody _intaractableRigidbody;
 
+        private void Awake()
+        {
+            _intaractableRigidbody = GetComponent<Rigidbody>();
+        }
         protected void OnTriggerEnter(Collider other)
         {
             if (other.transform.CompareTag(_destroyZoneTag))
             {
-                Debug.Log(gameObject.name + " " + transform.position);
-                GoalKeeper.Pooler.
                 PoolerController.Instance.ReturnToPool(gameObject, gameObject.tag);
             }
+        }
+        public virtual void ApplyEffect()
+        {
+            Debug.Log(gameObject.name + " " + "return to pool");
+            PoolerController.Instance.ReturnToPool(gameObject, gameObject.tag);
+        }
+        public void ApplyForce(Vector3 position)
+        {
+            Vector3 direction = (position - transform.position).normalized;
+            _intaractableRigidbody.AddForce(direction * _interactableForce, ForceMode.Impulse);
         }
     }
 }
