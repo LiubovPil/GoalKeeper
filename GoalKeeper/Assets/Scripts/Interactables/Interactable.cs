@@ -1,5 +1,6 @@
 using UnityEngine;
 using GoalKeeper.Pooler;
+using GoalKeeper.Controllers;
 
 namespace GoalKeeper.Interactables
 {
@@ -8,7 +9,7 @@ namespace GoalKeeper.Interactables
     {
         [Header("Interactable settings")]
         [SerializeField] protected float _interactableForce;
-        [SerializeField] protected int _interactableScore;
+        [SerializeField] protected int _interactablePoint;
 
         protected string _destroyZoneTag = "DestroyZone";
 
@@ -18,22 +19,32 @@ namespace GoalKeeper.Interactables
         {
             _intaractableRigidbody = GetComponent<Rigidbody>();
         }
-        protected void OnTriggerEnter(Collider other)
+        private void Start()
+        {
+            EventManager.AddListenerFinishGameEvent(ResetInteractable);
+        }
+        private void ResetInteractable()
+        {
+            _intaractableRigidbody.velocity = new Vector3(0f, 0f, 0f);
+            _intaractableRigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+            PoolerController.Instance.ReturnToPool(gameObject, gameObject.tag);
+        }
+        protected virtual void OnTriggerEnter(Collider other)
         {
             if (other.transform.CompareTag(_destroyZoneTag))
             {
-                PoolerController.Instance.ReturnToPool(gameObject, gameObject.tag);
+                ResetInteractable();
             }
         }
         public virtual void ApplyEffect()
         {
             Debug.Log(gameObject.name + " " + "return to pool");
-            PoolerController.Instance.ReturnToPool(gameObject, gameObject.tag);
+            ResetInteractable();
         }
         public void ApplyForce(Vector3 position)
         {
             Vector3 direction = (position - transform.position).normalized;
-            _intaractableRigidbody.AddForce(direction * _interactableForce, ForceMode.Impulse);
+            _intaractableRigidbody.AddForce(direction * _interactableForce, ForceMode.Force);
         }
     }
 }

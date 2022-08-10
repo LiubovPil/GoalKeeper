@@ -127,5 +127,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36504cb23e924124fad2b86c68b01703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactableForce: 12
-  _interactableScore: -5
+  _interactableForce: 250
+  _interactablePoint: -5

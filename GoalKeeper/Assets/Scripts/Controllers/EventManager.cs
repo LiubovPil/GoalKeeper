@@ -15,7 +15,7 @@ namespace GoalKeeper.Controllers
         private static UnityAction<int> _listenerChangeScoreEvent;
 
         private static UITimer _invokerFinishGameEvent;
-        private static UnityAction _listenerFinishGameEvent;
+        private static List<UnityAction> _listenersFinishGameEvent = new List<UnityAction>();
 
         public static void AddInvokerChangeProgressEvent(ProgressInteractable invoker)
         {
@@ -53,18 +53,18 @@ namespace GoalKeeper.Controllers
         {
             _invokerFinishGameEvent = invoker;
 
-            if (_listenerFinishGameEvent != null)
+            foreach (UnityAction listener in _listenersFinishGameEvent)
             {
-                _invokerFinishGameEvent.AddListenerFinishGameEvent(_listenerFinishGameEvent);
+                _invokerFinishGameEvent.AddListenerFinishGameEvent(listener);
             }
         }
         public static void AddListenerFinishGameEvent(UnityAction listener)
         {
-            _listenerFinishGameEvent = listener;
+            _listenersFinishGameEvent.Add(listener);
 
             if (_invokerFinishGameEvent != null)
             {
-                _invokerFinishGameEvent.AddListenerFinishGameEvent(_listenerFinishGameEvent);
+                _invokerFinishGameEvent.AddListenerFinishGameEvent(listener);
             }
         }
     }

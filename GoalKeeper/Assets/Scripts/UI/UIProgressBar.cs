@@ -8,13 +8,14 @@ namespace GoalKeeper.UI
     {
         private const float _maxProgress = 100;
 
-        [Header("Settings for UI Timer")]
+        [Header("Settings for UI ProgressBar")]
         [SerializeField] private Slider _progressBar;
 
         //Timer settings
         private Timer _decreaseTimer;
         private float _decreaseTime = 2.0f;
 
+        //ProgressBar settings
         private float _progressBarValue;
         private float _totalProgress;
 
@@ -24,12 +25,10 @@ namespace GoalKeeper.UI
             _decreaseTimer.Duration = _decreaseTime;
             _decreaseTimer.Run(); ;
         }
-
         private void Start()
         {
             EventManager.AddListenerChangeProgressEvent(GetScoreFromInteractable);
         }
-
         private void Update()
         {
             if (_decreaseTimer.Finished)
@@ -48,7 +47,6 @@ namespace GoalKeeper.UI
         {
             if(_totalProgress >= 0 && _totalProgress <= 100)
             {
-                Debug.Log("Total Score = " + _totalProgress);
                 _progressBarValue = Mathf.Clamp01(_totalProgress / _maxProgress);
                 _progressBar.value = _progressBarValue;
             }

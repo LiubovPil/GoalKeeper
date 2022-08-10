@@ -6,7 +6,7 @@ namespace GoalKeeper.Interactables
 {
     public class ProgressInteractable : Interactable
     {
-        private ChangeProgressEvent _changeProgressEvent = new ChangeProgressEvent();
+        protected ChangeProgressEvent _changeProgressEvent = new ChangeProgressEvent();
 
         private void Start()
         {
@@ -14,7 +14,7 @@ namespace GoalKeeper.Interactables
         }
         public override void ApplyEffect()
         {
-            _changeProgressEvent.Invoke(_interactableScore);
+            _changeProgressEvent.Invoke(_interactablePoint);
             base.ApplyEffect();
         }
         public void AddChangeProgressEvent(UnityAction<int> listener)

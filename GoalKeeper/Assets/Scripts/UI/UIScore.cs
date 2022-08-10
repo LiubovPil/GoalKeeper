@@ -11,10 +11,12 @@ namespace GoalKeeper
         [Header("Settings for UI Score")]
         [SerializeField] private TMP_Text _scoreText;
         
-        private float _scoreValue = 0;
+        private int _scoreValue;
 
         private void Awake()
         {
+            _scoreValue = PlayerPrefs.GetInt("Score", 0);
+            _scoreValue = GameData.Score;
             _scoreText.text = _scoreTextPrefix + _scoreValue.ToString();
         }
         private void Start()
@@ -24,6 +26,9 @@ namespace GoalKeeper
         private void ChangeScore(int score)
         {
             _scoreValue += score;
+            GameData.Score = _scoreValue;
+            PlayerPrefs.SetInt("Score", _scoreValue);
+
             _scoreText.text = _scoreTextPrefix + _scoreValue.ToString();
         }
     }

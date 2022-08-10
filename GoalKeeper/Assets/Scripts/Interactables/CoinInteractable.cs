@@ -14,7 +14,7 @@ namespace GoalKeeper.Interactables
         }
         public override void ApplyEffect()
         {
-            _changescoreEvent.Invoke(_interactableScore);
+            _changescoreEvent.Invoke(_interactablePoint);
             base.ApplyEffect();
         }
         public void AddListenerChangeScoreEvent(UnityAction<int> listener)
