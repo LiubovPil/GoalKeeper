@@ -20,10 +20,10 @@ namespace GoalKeeper.UI
         private void ActivateButton()
         {
             _isActive = !_isActive;
-            Time.timeScale = 0;
 
             _restartButton.SetActive(_isActive);
             _nextlevelButton.SetActive(_isActive);
+            Time.timeScale = 0;
         }
         public void RestartLevel()
         {

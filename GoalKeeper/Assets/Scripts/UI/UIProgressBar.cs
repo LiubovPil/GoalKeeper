@@ -31,7 +31,7 @@ namespace GoalKeeper.UI
         }
         private void Update()
         {
-            if (_decreaseTimer.Finished)
+            if (_decreaseTimer.Finished && _totalProgress > 0)
             {
                 _totalProgress -= 0.5f;
                 UpdateScore();
